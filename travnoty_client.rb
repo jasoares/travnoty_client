@@ -21,84 +21,85 @@ class MyFrame < Wx::Frame
 
   def build_login_panel
     @login_panel = Wx::Panel.new(self)
-    panel_sizer = Wx::BoxSizer.new(Wx::VERTICAL)
-    @login_panel.set_sizer(panel_sizer)
+    @panel_sizer = Wx::BoxSizer.new(Wx::VERTICAL)
+    @login_panel.set_sizer(@panel_sizer)
 
     # Splash Image
     img_file = File.join(File.dirname(__FILE__), 'imgs', 'travnoty_splash.png')
     @splash_image = Wx::StaticBitmap.new(@login_panel, -1, Wx::Bitmap.new(img_file, Wx::BITMAP_TYPE_PNG), nil)
-    panel_sizer.add(@splash_image, 0, Wx::ALIGN_CENTER, 0)
-    panel_sizer.add_spacer(50)
+    @panel_sizer.add(@splash_image, 0, Wx::ALIGN_CENTER, 0)
+    @panel_sizer.add_spacer(20)
 
     # Each line composed by an horizontal BoxSizer
 
     # Country label and dropdown list
     box = Wx::BoxSizer.new(Wx::HORIZONTAL)
     
-    country_label = Wx::StaticText.new(@login_panel, :label => 'Country:')
-    country_label.set_help_text 'The Travian server country where you have your account'
-    box.add(country_label, 0, Wx::ALIGN_CENTER, 0)
+    country_label = Wx::StaticText.new(@login_panel, :label => 'Country:', :size => [100, -1])
+    #country_label.set_help_text 'The Travian server country where you have your account'
+    box.add(country_label, 0, Wx::ALIGN_LEFT, 0)
     
-    @country_combo = Wx::BitmapComboBox.new(@login_panel, -1, 'com', Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), nil)
+    @country_combo = Wx::BitmapComboBox.new(@login_panel, -1, 'com', Wx::DEFAULT_POSITION, Wx::Size.new(178, 30))
     Travian::Server.keys.each.with_index do |country,idx|
       name = country.to_s
       country_flag_png = File.join(File.dirname(__FILE__), 'imgs', 'flags', "#{name.upcase}.png")
       bitmap = Wx::Bitmap.new(country_flag_png, Wx::BITMAP_TYPE_PNG)
       @country_combo.insert(name, bitmap, idx)
     end
-    box.add(@country_combo, 1, Wx::ALIGN_CENTER, 0)
+    evt_combobox(@country_combo) {|event| on_country_select(event) }
+    box.add(@country_combo, 1, Wx::ALIGN_RIGHT, 0)
     
-    panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
-    panel_sizer.add_spacer(5)
+    @panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
+    @panel_sizer.add_spacer(5)
 
     # Server label and dropdown list
-    box = Wx::BoxSizer.new(Wx::HORIZONTAL)
+    @server_line = Wx::BoxSizer.new(Wx::HORIZONTAL)
     
-    server_label = Wx::StaticText.new(@login_panel, :label => 'Server:')
-    server_label.set_help_text 'The Travian server address where you have your account.'
-    box.add(server_label, 0, Wx::ALIGN_CENTER, 0)
+    server_label = Wx::StaticText.new(@login_panel, :label => 'Server:', :size => [100, -1])
+    #server_label.set_help_text 'The Travian server address where you have your account.'
+    @server_line.add(server_label, 0, Wx::ALIGN_CENTER, 0)
 
-    @server_combo = Wx::ComboBox.new(@login_panel, -1, '', Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), Travian::Server.servers.values.inject([], :+))
-    box.add(@server_combo, 1, Wx::ALIGN_CENTER, 0)
+    @server_combo = Wx::ComboBox.new(@login_panel, -1, '', Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), Travian::Server.servers_from(:com))
+    @server_line.add(@server_combo, 1, Wx::ALIGN_CENTER, 0)
     
-    panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
-    panel_sizer.add_spacer(5)
+    @panel_sizer.add(@server_line, 0, Wx::ALIGN_CENTER, 0)
+    @panel_sizer.add_spacer(5)
 
     # Username label and text field
     box = Wx::BoxSizer.new(Wx::HORIZONTAL)
 
-    username_label = Wx::StaticText.new(@login_panel, -1, 'Username:', Wx::DEFAULT_POSITION, Wx::DEFAULT_SIZE, Wx::ALIGN_CENTER)
-    username_label.set_help_text 'Your Travian account username.'
+    username_label = Wx::StaticText.new(@login_panel, :label => 'Username:', :size => [100, -1])
+    #username_label.set_help_text 'Your Travian account username.'
     box.add(username_label, 0, Wx::ALIGN_CENTER, 0)
 
     @username_field = Wx::TextCtrl.new(@login_panel, :value => '', :size => [180, -1])
     box.add(@username_field, 0, Wx::ALIGN_CENTER, 0)
 
-    panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
-    panel_sizer.add_spacer(5)
+    @panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
+    @panel_sizer.add_spacer(5)
 
     # Password label and password field
     box = Wx::BoxSizer.new(Wx::HORIZONTAL)
 
-    password_label = Wx::StaticText.new(@login_panel, :label => 'Password:')
-    password_label.set_help_text 'Your Travian account password.'
+    password_label = Wx::StaticText.new(@login_panel, :label => 'Password:', :size => [100, -1])
+    #password_label.set_help_text 'Your Travian account password.'
     box.add(password_label, 0, Wx::ALIGN_CENTER, 0)
 
     @password_field = Wx::TextCtrl.new(@login_panel, -1, '', Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), Wx::TE_PASSWORD)
     box.add(@password_field, 0, Wx::ALIGN_CENTER, 0)
 
-    panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
-    panel_sizer.add_spacer(5)
+    @panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
+    @panel_sizer.add_spacer(5)
 
     # Error messages
     @error_messages = Wx::StaticText.new(@login_panel, :label => '')
-    panel_sizer.add(@error_messages, 0, Wx::ALIGN_CENTER, 2)
-    panel_sizer.add_spacer(5)
+    @panel_sizer.add(@error_messages, 0, Wx::ALIGN_CENTER, 2)
+    @panel_sizer.add_spacer(5)
 
     @login_button = Wx::Button.new(@login_panel, -1, 'Login')
     evt_button(@login_button.get_id) { |event| login(event) }
-    panel_sizer.add(@login_button, 0, Wx::ALIGN_CENTER, 2)
-    panel_sizer.add_spacer(5)
+    @panel_sizer.add(@login_button, 0, Wx::ALIGN_CENTER, 2)
+    @panel_sizer.add_spacer(5)
 
     self.set_default_item @login_button
   end
@@ -120,13 +121,29 @@ class MyFrame < Wx::Frame
   rescue Travian::InvalidConfigurationError
     @error_messages.set_label 'Invalid username or password.'
   end
+
+  def on_country_select(event)
+    selected_key = Travian::Server.servers.keys[event.get_selection]
+    if @server_line.detach @server_combo
+      @server_combo.destroy
+      @server_combo = Wx::ComboBox.new(
+        @login_panel, -1,
+        '',
+        Wx::DEFAULT_POSITION,
+        Wx::Size.new(180, -1),
+        Travian::Server.servers_from(selected_key)
+      )
+    end
+    @server_line.add(@server_combo)
+    @panel_sizer.layout
+  end
 end
 
 class MyApp < Wx::App
   def on_init
     @travnoty_client = MyFrame.new("Travnoty Client v0.0.1 Alpha",
       Wx::DEFAULT_POSITION,
-      Wx::Size.new(584, 700))
+      Wx::Size.new(580, 600))
     @travnoty_client.center_on_screen(Wx::BOTH)
 		@travnoty_client.show
   end
