@@ -1,5 +1,6 @@
 require 'travnoty'
 require 'travian'
+require 'travnoty_client/gui/hub_bitmap_combo_box'
 
 module TravnotyClient
   class MainFrame < Wx::Frame
@@ -42,14 +43,9 @@ module TravnotyClient
       #country_label.set_help_text 'The Travian server country where you have your account'
       box.add(country_label, 0, Wx::ALIGN_LEFT, 0)
       
-      @country_combo = Wx::BitmapComboBox.new(@login_panel, -1, 'International', Wx::DEFAULT_POSITION, Wx::Size.new(178, 30))
-      hubs.each.with_index do |hub, idx|
-        country_flag_png = File.expand_path("../../../../imgs/flags/#{hub.code.upcase}.png", __FILE__)
-        bitmap = Wx::Bitmap.new(country_flag_png, Wx::BITMAP_TYPE_PNG)
-        @country_combo.insert(hub.name, bitmap, idx)
-      end
-      evt_combobox(@country_combo) {|event| on_country_select(event) }
-      box.add(@country_combo, 1, Wx::ALIGN_RIGHT, 0)
+      @hub_combo = HubBitmapComboBox.create_inside(@login_panel, size: Wx::Size.new(178, 30))
+      evt_combobox(@hub_combo) { |event| on_hub_select(event) }
+      box.add(@hub_combo, 1, Wx::ALIGN_RIGHT, 0)
       
       @panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
       @panel_sizer.add_spacer(5)
@@ -61,7 +57,7 @@ module TravnotyClient
       #server_label.set_help_text 'The Travian server address where you have your account.'
       @server_line.add(server_label, 0, Wx::ALIGN_CENTER, 0)
 
-      @server_combo = Wx::ComboBox.new(@login_panel, -1, '', Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), Travnoty.hubs_servers(3).map(&:host))
+      @server_combo = Wx::ComboBox.new(@login_panel, -1, hubs_servers(22).first.host, Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), hubs_servers(22).map(&:host))
       @server_line.add(@server_combo, 1, Wx::ALIGN_CENTER, 0)
       
       @panel_sizer.add(@server_line, 0, Wx::ALIGN_CENTER, 0)
@@ -124,19 +120,21 @@ module TravnotyClient
       @error_messages.set_label 'Invalid username or password.'
     end
 
-    def on_country_select(event)
-      if @server_line.detach @server_combo
+    def on_hub_select(event)
+      if @server_line.detach(@server_combo)
+        servers = Travnoty.hubs_servers(event.get_client_data.id).map(&:host)
         @server_combo.destroy
         @server_combo = Wx::ComboBox.new(
           @login_panel, -1,
-          '',
+          servers.first,
           Wx::DEFAULT_POSITION,
           Wx::Size.new(180, -1),
-          hubs_servers(event.get_selection).map(&:host)
+          servers
         )
       end
       @server_line.add(@server_combo)
       @panel_sizer.layout
     end
+
   end
 end
