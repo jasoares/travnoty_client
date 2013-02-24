@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
-require File.expand_path('../../lib/travnoty_client.rb', __FILE__)
-#require 'travnoty_client'
+$:.unshift File.expand_path('../../../travnoty/lib', __FILE__)
+$:.unshift File.expand_path('../../../travian_client/lib', __FILE__)
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'travnoty_client'
 
 TravnotyClient.exec

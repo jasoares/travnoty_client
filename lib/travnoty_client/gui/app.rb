@@ -1,6 +1,5 @@
 require 'wx'
-require File.expand_path('../main_frame.rb', __FILE__)
-#require 'travnoty_client/main_frame'
+require 'travnoty_client/gui/main_frame'
 
 module TravnotyClient
   class App < Wx::App

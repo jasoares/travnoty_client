@@ -1,9 +1,11 @@
 require 'travnoty'
+require 'travian'
 
 module TravnotyClient
   class MainFrame < Wx::Frame
     def initialize(title, pos, size, style=Wx::DEFAULT_FRAME_STYLE)
       super(nil, -1, title, pos, size, style)
+      @hubs_servers = []
       icon_file = File.expand_path('../../../../imgs/travian_notifier_icon.png', __FILE__)
       icon = Wx::Icon.new(icon_file, Wx::BITMAP_TYPE_PNG)
       set_icon(icon)
@@ -11,11 +13,13 @@ module TravnotyClient
     end
 
     def hubs
-      @hubs ||= Travnoty.hubs[:body]
+      @hubs ||= Travnoty.hubs.sort_by(&:name)
     end
 
-    def servers_from(hub_id)
-      @hubs[hub_id][:servers] ||= Travnoty.hubs_servers(hub_id)[:body]
+    def hubs_servers(id)
+      @hubs_servers[hubs[id].id] ||= begin
+        Travnoty.hubs_servers(hubs[id].id)
+      end
     end
 
     def build_login_panel
@@ -39,11 +43,10 @@ module TravnotyClient
       box.add(country_label, 0, Wx::ALIGN_LEFT, 0)
       
       @country_combo = Wx::BitmapComboBox.new(@login_panel, -1, 'International', Wx::DEFAULT_POSITION, Wx::Size.new(178, 30))
-      hubs.each.with_index do |hub,idx|
-        name, code = hub[:name], hub[:code]
-        country_flag_png = File.expand_path("../../../../imgs/flags/#{code.upcase}.png", __FILE__)
+      hubs.each.with_index do |hub, idx|
+        country_flag_png = File.expand_path("../../../../imgs/flags/#{hub.code.upcase}.png", __FILE__)
         bitmap = Wx::Bitmap.new(country_flag_png, Wx::BITMAP_TYPE_PNG)
-        @country_combo.insert(name, bitmap, idx)
+        @country_combo.insert(hub.name, bitmap, idx)
       end
       evt_combobox(@country_combo) {|event| on_country_select(event) }
       box.add(@country_combo, 1, Wx::ALIGN_RIGHT, 0)
@@ -58,7 +61,7 @@ module TravnotyClient
       #server_label.set_help_text 'The Travian server address where you have your account.'
       @server_line.add(server_label, 0, Wx::ALIGN_CENTER, 0)
 
-      @server_combo = Wx::ComboBox.new(@login_panel, -1, '', Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), []) # replaced Travian::Server.servers_from(:com) by []
+      @server_combo = Wx::ComboBox.new(@login_panel, -1, '', Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), Travnoty.hubs_servers(3).map(&:host))
       @server_line.add(@server_combo, 1, Wx::ALIGN_CENTER, 0)
       
       @panel_sizer.add(@server_line, 0, Wx::ALIGN_CENTER, 0)
@@ -103,26 +106,25 @@ module TravnotyClient
       self.set_default_item @login_button
     end
 
-    # def configure_travian(server, user, password)
-    #   Travian.configure do |account|
-    #     account.server = server
-    #     account.user = user
-    #     account.password = password
-    #   end
-    # end
+    def configure_travian(server, user, password)
+      Travian.configure do |account|
+        account.server = server
+        account.user = user
+        account.password = password
+      end
+    end
 
     def login(event)
-    #   server, user, password = [@server_combo, @username_field, @password_field].map(&:get_value)
-    #   configure_travian(server, user, password)
-    #   #puts "Hi #{Travian.user.name}, welcome to Travian Notifier"
-    #   puts "There are currently no incoming attacks" unless Travian.incoming_attacks?
-    #   puts "Your total current production is:\n#{Travian.villages.map(&:production).inject(:+)}"
-    # rescue Travian::InvalidConfigurationError
-    #   @error_messages.set_label 'Invalid username or password.'
+      server, user, password = [@server_combo, @username_field, @password_field].map(&:get_value)
+      configure_travian(server, user, password)
+      puts "Hi #{Travian.user.name}, welcome to Travian Notifier"
+      puts "There are currently no incoming attacks" unless Travian.incoming_attacks?
+      puts "Your total current production is:\n#{Travian.villages.map(&:production).inject(:+)}"
+    rescue Travian::InvalidConfigurationError
+      @error_messages.set_label 'Invalid username or password.'
     end
 
     def on_country_select(event)
-      selected_key = hubs[event.get_selection][:id]
       if @server_line.detach @server_combo
         @server_combo.destroy
         @server_combo = Wx::ComboBox.new(
@@ -130,7 +132,7 @@ module TravnotyClient
           '',
           Wx::DEFAULT_POSITION,
           Wx::Size.new(180, -1),
-          servers_from(selected_key).map { |server| "#{server[:host]} (#{server[:name]})" }
+          hubs_servers(event.get_selection).map(&:host)
         )
       end
       @server_line.add(@server_combo)

@@ -1,0 +1,276 @@
+1:
+  lumber: 3
+  clay: 3
+  iron: 3
+  crop: 9
+  1: cropland
+  2: cropland
+  3: woodcutter
+  4: cropland
+  5: cropland
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+2:
+  lumber: 3
+  clay: 4
+  iron: 5
+  crop: 6
+  1: iron mine
+  2: cropland
+  3: woodcutter
+  4: iron mine
+  5: clay pit
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+3:
+  lumber: 4
+  clay: 4
+  iron: 4
+  crop: 6
+  1: woodcutter
+  2: cropland
+  3: woodcutter
+  4: iron mine
+  5: clay pit
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+4:
+  lumber: 4
+  clay: 5
+  iron: 3
+  crop: 6
+  1: woodcutter
+  2: cropland
+  3: woodcutter
+  4: clay pit
+  5: clay pit
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+5:
+  lumber: 5
+  clay: 3
+  iron: 4
+  crop: 6
+  1: woodcutter
+  2: cropland
+  3: woodcutter
+  4: iron mine
+  5: woodcutter
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+6:
+  lumber: 1
+  clay: 1
+  iron: 1
+  crop: 15
+  1: cropland
+  2: cropland
+  3: woodcutter
+  4: iron mine
+  5: cropland
+  6: cropland
+  7: cropland
+  8: cropland
+  9: cropland
+  10: cropland
+  11: cropland
+  12: cropland
+  13: cropland
+  14: cropland
+  15: cropland
+  16: clay pit
+  17: cropland
+  18: cropland
+7:
+  lumber: 4
+  clay: 4
+  iron: 3
+  crop: 7
+  1: woodcutter
+  2: cropland
+  3: cropland
+  4: woodcuter
+  5: clay pit
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+8:
+  lumber: 3
+  clay: 4
+  iron: 4
+  crop: 7
+  1: iron mine
+  2: cropland
+  3: cropland
+  4: woodcutter
+  5: clay pit
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+9:
+  lumber: 4
+  clay: 3
+  iron: 4
+  crop: 7
+  1: iron mine
+  2: cropland
+  3: cropland
+  4: woodcutter
+  5: woodcutter
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+10:
+  lumber: 3
+  clay: 5
+  iron: 4
+  crop: 6
+  1: iron mine
+  2: cropland
+  3: woodcutter
+  4: clay pit
+  5: clay pit
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
+11:
+  lumber: 4
+  clay: 3
+  iron: 5
+  crop: 6
+  1: iron mine
+  2: woodcutter
+  3: woodcutter
+  4: iron mine
+  5: woddcutter
+  6: cropland
+  7: cropland
+  8: iron mine
+  9: iron mine
+  10: clay pit
+  11: clay pit
+  12: iron mine
+  13: woodcutter
+  14: cropland
+  15: cropland
+  16: clay pit
+  17: cropland
+  18: cropland
+12:
+  lumber: 5
+  clay: 4
+  iron: 3
+  crop: 6
+  1: woodcutter
+  2: cropland
+  3: woodcutter
+  4: woodcutter
+  5: clay pit
+  6: clay pit
+  7: iron mine
+  8: cropland
+  9: cropland
+  10: iron mine
+  11: iron mine
+  12: cropland
+  13: cropland
+  14: woodcutter
+  15: cropland
+  16: clay pit
+  17: woodcutter
+  18: clay pit
