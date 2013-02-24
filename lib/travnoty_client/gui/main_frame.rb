@@ -43,7 +43,7 @@ module TravnotyClient
       #country_label.set_help_text 'The Travian server country where you have your account'
       box.add(country_label, 0, Wx::ALIGN_LEFT, 0)
       
-      @hub_combo = HubBitmapComboBox.create_inside(@login_panel, size: Wx::Size.new(178, 30))
+      @hub_combo = HubBitmapComboBox.create_inside(@login_panel, size: Wx::Size.new(198, 30))
       evt_combobox(@hub_combo) { |event| on_hub_select(event) }
       box.add(@hub_combo, 1, Wx::ALIGN_RIGHT, 0)
       
@@ -57,7 +57,7 @@ module TravnotyClient
       #server_label.set_help_text 'The Travian server address where you have your account.'
       @server_line.add(server_label, 0, Wx::ALIGN_CENTER, 0)
 
-      @server_combo = Wx::ComboBox.new(@login_panel, -1, hubs_servers(22).first.host, Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), hubs_servers(22).map(&:host))
+      @server_combo = Wx::ComboBox.new(@login_panel, -1, hubs_servers(22).first.host, Wx::DEFAULT_POSITION, Wx::Size.new(200, -1), hubs_servers(22).map(&:host))
       @server_line.add(@server_combo, 1, Wx::ALIGN_CENTER, 0)
       
       @panel_sizer.add(@server_line, 0, Wx::ALIGN_CENTER, 0)
@@ -70,7 +70,7 @@ module TravnotyClient
       #username_label.set_help_text 'Your Travian account username.'
       box.add(username_label, 0, Wx::ALIGN_CENTER, 0)
 
-      @username_field = Wx::TextCtrl.new(@login_panel, :value => '', :size => [180, -1])
+      @username_field = Wx::TextCtrl.new(@login_panel, :value => '', :size => [200, -1])
       box.add(@username_field, 0, Wx::ALIGN_CENTER, 0)
 
       @panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
@@ -83,7 +83,7 @@ module TravnotyClient
       #password_label.set_help_text 'Your Travian account password.'
       box.add(password_label, 0, Wx::ALIGN_CENTER, 0)
 
-      @password_field = Wx::TextCtrl.new(@login_panel, -1, '', Wx::DEFAULT_POSITION, Wx::Size.new(180, -1), Wx::TE_PASSWORD)
+      @password_field = Wx::TextCtrl.new(@login_panel, -1, '', Wx::DEFAULT_POSITION, Wx::Size.new(200, -1), Wx::TE_PASSWORD)
       box.add(@password_field, 0, Wx::ALIGN_CENTER, 0)
 
       @panel_sizer.add(box, 0, Wx::ALIGN_CENTER, 0)
@@ -128,7 +128,7 @@ module TravnotyClient
           @login_panel, -1,
           servers.first,
           Wx::DEFAULT_POSITION,
-          Wx::Size.new(180, -1),
+          Wx::Size.new(200, -1),
           servers
         )
       end
