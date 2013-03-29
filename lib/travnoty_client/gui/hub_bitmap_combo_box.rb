@@ -6,41 +6,32 @@ module TravnotyClient
 
     DEFAULT_HUB = 'International'
 
-    class << self
+    def initialize(parent, options={})
+      init    = options[:default]  || default_choice
+      pos     = options[:position] || Wx::DEFAULT_POSITION
+      size    = options[:size]     || Wx::DEFAULT_SIZE
+      choices = options[:choices]  || nil
 
-      def create_inside(parent, options={})
-        init    = options[:default]  || default_choice
-        pos     = options[:position] || Wx::DEFAULT_POSITION
-        size    = options[:size]     || Wx::DEFAULT_SIZE
-        choices = options[:choices]  || nil
+      super(parent, -1, init, pos, size, choices)
+      populate_with_hubs
+    end
 
-        create(parent, init, pos, size, choices)
+  private
+
+    def populate_with_hubs
+      hubs.each.with_index do |hub, idx|
+        flag = Bitmap.create_flag(hub)
+        insert(hub.name, flag, idx, hub)
       end
+    end
 
-      def create(parent, init, pos, size, choices)
-        widget = new(parent, -1, init, pos, size, choices)
-        populate_with_hubs(widget)
-        widget
-      end
+    def hubs
+      @hubs ||= Travnoty.hubs
+    end
 
-    private
-
-      def populate_with_hubs(widget)
-        hubs.each.with_index do |hub, idx|
-          flag = Bitmap.create_flag(hub)
-          widget.insert(hub.name, flag, idx, hub)
-        end
-      end
-
-      def hubs
-        @hubs ||= Travnoty.hubs
-      end
-
-      def default_choice
-        return Travnoty.hub(File.open('hub_id') { |file| Marshal.load(file) }).name if File.exists?('hub_id')
-        hubs.find { |hub| hub.name == HubBitmapComboBox::DEFAULT_HUB }.name
-      end
-
+    def default_choice
+      return Travnoty.hub(File.open('hub_id') { |file| Marshal.load(file) }).name if File.exists?('hub_id')
+      hubs.find { |hub| hub.name == HubBitmapComboBox::DEFAULT_HUB }.name
     end
 
   end

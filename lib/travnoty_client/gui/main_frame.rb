@@ -43,7 +43,7 @@ module TravnotyClient
       #country_label.set_help_text 'The Travian server country where you have your account'
       box.add(country_label, 0, Wx::ALIGN_LEFT, 0)
       
-      @hub_combo = HubBitmapComboBox.create_inside(@login_panel, size: Wx::Size.new(198, 30))
+      @hub_combo = HubBitmapComboBox.new(@login_panel, size: Wx::Size.new(198, 30))
       evt_combobox(@hub_combo) { |event| on_hub_select(event) }
       box.add(@hub_combo, 1, Wx::ALIGN_RIGHT, 0)
       
