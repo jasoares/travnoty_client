@@ -1,15 +1,16 @@
 require 'travnoty'
 require 'travnoty_client/gui/bitmap'
+include Wx
 
 module TravnotyClient
-  class HubBitmapComboBox < Wx::BitmapComboBox
+  class HubBitmapComboBox < BitmapComboBox
 
     DEFAULT_HUB = 'International'
 
     def initialize(parent, options={})
       init    = options[:default]  || default_choice
-      pos     = options[:position] || Wx::DEFAULT_POSITION
-      size    = options[:size]     || Wx::DEFAULT_SIZE
+      pos     = options[:position] || DEFAULT_POSITION
+      size    = options[:size]     || DEFAULT_SIZE
       choices = options[:choices]  || nil
 
       super(parent, -1, init, pos, size, choices)
